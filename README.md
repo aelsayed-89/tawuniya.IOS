@@ -5,6 +5,7 @@
 طريقة العرض:
 •	كل مستخدم سيظهر مع جميع التفاصيل بما في ذلك العنوان، رقم الهاتف، الموقع الإلكتروني، والمعلومات الخاصة بالشركة.
 •	ستظهر العناصر بشكل منظم داخل واجهة  ScrollView  لتمكن المستخدم من التمرير بين البيانات.
+قمت بإضافة print("Data fetched successfully: \(decodedData)") داخل الـ fetchData() بعد جلب البيانات من الـ API لعرض البيانات المستلمة في الكونسول. بهذه الطريقة يمكنك التأكد من أن البيانات تم جلبها بشكل صحيح.
 
 إضافه دالة Like
 1.	دالة isLiked : هذه الدالة تقوم بالتحقق من حالة الـ Like للمستخدم إذا كان قد ضغط على الزر من قبل، وتعيد قيمة true أو false بناءً على ذلك.
@@ -15,3 +16,13 @@
 •	كل عنصر في القائمة لديه زر "Like" يمكن الضغط عليه.
 •	عند الضغط على زر "Like"، يتم تخزين حالته في UserDefaults.
 •	عندما يتم إعادة فتح التطبيق، سيظل الاحتفاظ بحالة الـ "Like" لكل مستخدم.
+التأكد من حالة الـ Like:
+في دالة toggleLike، تم إضافة print("Current Like State for User \(userId): \(isCurrentlyLiked)") لتتبع حالة الـ "Like" الحالية.
+بعد تحديث الـ UserDefaults، تم إضافة print("Updated Like State for User \(userId): \(!isCurrentlyLiked)") لتتبع حالة الـ Like بعد التغيير.
+
+التأكد من أن الـ API يعمل:
+أضفت print("Error fetching data: \(error.localizedDescription)") لعرض أي أخطاء تحدث أثناء جلب البيانات من الـ API.
+إذا كانت البيانات غير موجودة، سيتم طباعة "No data received."
+
+التأكد من أن الـ Like يتم حفظه في الكاش:
+في دالة isLiked, تم إضافة print("Checking Like State for User \(userId): \(liked)") للتحقق من حالة الـ Like في UserDefaults.
