@@ -1,0 +1,72 @@
+struct ContentView: View {
+    @StateObject private var viewModel = APIViewModel()
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                } else if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(viewModel.users) { user in
+                                VStack(alignment: .leading) {
+                                    Text("ID: \(user.id)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                    Text("Name: \(user.name)")
+                                        .font(.headline)
+                                    Text("Username: \(user.username)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.blue)
+                                    Text("Email: \(user.email)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.green)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Address:")
+                                            .font(.headline)
+                                        Text("Street: \(user.address.street)")
+                                        Text("Suite: \(user.address.suite)")
+                                        Text("City: \(user.address.city)")
+                                        Text("Zipcode: \(user.address.zipcode)")
+                                        Text("Latitude: \(user.address.geo.lat), Longitude: \(user.address.geo.lng)")
+                                    }
+                                    .padding(.top)
+                                    
+                                    Text("Phone: \(user.phone)")
+                                        .font(.subheadline)
+                                    Text("Website: \(user.website)")
+                                        .font(.subheadline)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Company:")
+                                            .font(.headline)
+                                        Text("Name: \(user.company.name)")
+                                        Text("Catch Phrase: \(user.company.catchPhrase)")
+                                        Text("BS: \(user.company.bs)")
+                                    }
+                                    .padding(.top)
+                                    
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 5))
+                                .padding(.bottom, 10)
+                            }
+                        }
+                        .padding()
+                    }
+                }
+            }
+            .onAppear {
+                viewModel.fetchData()
+            }
+            .navigationTitle("Users List")
+        }
+    }
+}
