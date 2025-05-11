@@ -1,0 +1,34 @@
+class APIViewModel: ObservableObject {
+    @Published var users: [User] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+
+    func fetchData() {
+        guard let url = URL(string: "https://jsonplaceholder.typicode.com/users") else { return }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async {
+                self.isLoading = false
+                if let error = error {
+                    self.errorMessage = "Error: \(error.localizedDescription)"
+                    return
+                }
+                
+                guard let data = data else {
+                    self.errorMessage = "No data received."
+                    return
+                }
+                
+                do {
+                    let decodedData = try JSONDecoder().decode([User].self, from: data)
+                    self.users = decodedData
+                } catch {
+                    self.errorMessage = "Failed to decode data."
+                }
+            }
+        }.resume()
+    }
+}
