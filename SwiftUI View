@@ -73,7 +73,7 @@ struct ContentView: View {
 
 func toggleLike(userId: Int) {
     let isCurrentlyLiked = isLiked(userId: userId)
-    print("Current Like State: \(isCurrentlyLiked)")  // طباعة الحالة الحالية
+    print("Current Like State: \(isCurrentlyLiked)")
     UserDefaults.standard.set(!isCurrentlyLiked, forKey: "likedUser\(userId)")
-    print("New Like State: \(!isCurrentlyLiked)")  // طباعة الحالة الجديدة بعد الضغط
+    print("New Like State: \(!isCurrentlyLiked)")
 }
