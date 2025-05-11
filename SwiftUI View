@@ -53,6 +53,20 @@ struct ContentView: View {
                                     }
                                     .padding(.top)
                                     
+                                    // 7. زر Like
+                                    Button(action: {
+                                        viewModel.toggleLike(userId: user.id)
+                                    }) {
+                                        HStack {
+                                            Image(systemName: viewModel.isLiked(userId: user.id) ? "heart.fill" : "heart")
+                                                .foregroundColor(viewModel.isLiked(userId: user.id) ? .red : .gray)
+                                            Text(viewModel.isLiked(userId: user.id) ? "Liked" : "Like")
+                                                .foregroundColor(viewModel.isLiked(userId: user.id) ? .red : .blue)
+                                        }
+                                        .padding()
+                                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 5))
+                                    }
+                                    .padding(.top)
                                 }
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 5))
@@ -70,7 +84,7 @@ struct ContentView: View {
         }
     }
 }
-
+_______________________________________________________________________________________
 func toggleLike(userId: Int) {
     let isCurrentlyLiked = isLiked(userId: userId)
     print("Current Like State: \(isCurrentlyLiked)")
