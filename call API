@@ -1,4 +1,5 @@
-struct User: Identifiable, Codable {
+import SwiftUI
+   struct User: Identifiable, Codable {
     let id: Int
     let name: String
     let username: String
@@ -26,12 +27,4 @@ struct Company: Codable {
     let name: String
     let catchPhrase: String
     let bs: String
-}
-do {
-    let decodedData = try JSONDecoder().decode([User].self, from: data)
-    self.users = decodedData
-    print(decodedData)
-} catch {
-    self.errorMessage = "Failed to decode data."
-    print(error)
 }
