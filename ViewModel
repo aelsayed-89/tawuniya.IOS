@@ -4,12 +4,15 @@ class APIViewModel: ObservableObject {
     @Published var errorMessage: String?
 
 func isLiked(userId: Int) -> Bool {
-        return UserDefaults.standard.bool(forKey: "likedUser\(userId)")
+        let liked = UserDefaults.standard.bool(forKey: "likedUser\(userId)")
+        print("Checking Like State for User \(userId): \(liked)")
+        return liked
     }
-
 func toggleLike(userId: Int) {
         let isCurrentlyLiked = isLiked(userId: userId)
+        print("Current Like State for User \(userId): \(isCurrentlyLiked)")
         UserDefaults.standard.set(!isCurrentlyLiked, forKey: "likedUser\(userId)")
+        print("Updated Like State for User \(userId): \(!isCurrentlyLiked)")
     }
 
     func fetchData() {
@@ -23,19 +26,28 @@ func toggleLike(userId: Int) {
                 self.isLoading = false
                 if let error = error {
                     self.errorMessage = "Error: \(error.localizedDescription)"
+                    print("Error fetching data: \(error.localizedDescription)")
                     return
                 }
                 
                 guard let data = data else {
                     self.errorMessage = "No data received."
+                    print("No data received.")
                     return
                 }
                 
                 do {
                     let decodedData = try JSONDecoder().decode([User].self, from: data)
                     self.users = decodedData
+                    print("Data fetched successfully: \(decodedData)")
                 } catch {
                     self.errorMessage = "Failed to decode data."
+                    print("Error decoding data: \(error)")
+                }
+            }
+        }.resume()
+    }
+}Failed to decode data."
                 }
             }
         }.resume()
